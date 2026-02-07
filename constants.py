@@ -7,3 +7,9 @@ LINE_WIDTH = 2 # width of the lines that make up the player's ship and the aster
 PLAYER_TURN_SPEED = 300 # degrees per second
 
 PLAYER_SPEED = 20 # how fast the player moves forward when thrusting, in pixels per second
+
+
+ASTEROID_MIN_RADIUS = 20
+ASTEROID_KINDS = 3
+ASTEROID_SPAWN_RATE_SECONDS = 0.8
+ASTEROID_MAX_RADIUS = ASTEROID_MIN_RADIUS * ASTEROID_KINDS
