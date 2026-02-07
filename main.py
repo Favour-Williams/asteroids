@@ -19,11 +19,12 @@ def main():
         screen.fill("black")
 
         player.draw(screen)
-        
+
         pygame.display.flip()
         milliseconds = clock.tick(60) # 60 frames per second
 
         dt = milliseconds / 1000
+        player.update(dt)
 
     
     
