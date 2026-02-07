@@ -5,3 +5,5 @@ PLAYER_RADIUS = 20 #radius of the player's ship
 LINE_WIDTH = 2 # width of the lines that make up the player's ship and the asteroids
 
 PLAYER_TURN_SPEED = 300 # degrees per second
+
+PLAYER_SPEED = 20 # how fast the player moves forward when thrusting, in pixels per second
