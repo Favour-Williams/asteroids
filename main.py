@@ -43,9 +43,8 @@ def main():
                     # 2. Log the hit for the tests
                     log_event("asteroid_shot")
                     
-                    # 3. Kill both objects!
-                    asteroid.kill()
                     shot.kill()
+                    asteroid.split()
 
         screen.fill("black")
 
