@@ -1,25 +1,34 @@
 import pygame
+import sys
+
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from logger import log_state
+from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
-
+from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     pygame.init()
-    clock = pygame.time.Clock()
-    dt = 0 # delta time(means change), time between frames
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    dt = 0 
 
-
-    updatable  = pygame.sprite.Group()
+    # Create Groups
+    updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-
-    Player.containers = (updatable, drawable)
     asteroids = pygame.sprite.Group()
-    Asteroid.containers = (asteroids, updatable, drawable)
+    shots = pygame.sprite.Group()
 
+    # Set Static Containers (Use tuples with commas!)
+    Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable,) # Added comma for tuple
+    Shot.containers = (shots, updatable, drawable)
+
+    # Instantiate Objects
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()
     
     while True:
         for event in pygame.event.get():
@@ -27,31 +36,25 @@ def main():
                 return
             
         log_state()
+        updatable.update(dt)
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    # 2. Log the hit for the tests
+                    log_event("asteroid_shot")
+                    
+                    # 3. Kill both objects!
+                    asteroid.kill()
+                    shot.kill()
 
         screen.fill("black")
 
-        player.draw(screen)
-
-        pygame.display.flip()
-        milliseconds = clock.tick(60) # 60 frames per second
-
-        dt = milliseconds / 1000
-        player.update(dt)
-        updatable.update(dt)
         for obj in drawable:
             obj.draw(screen)
 
+        pygame.display.flip()
 
-    
-    
-
-    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
-
-
-    
-
+        dt = clock.tick(60) / 1000
 
 if __name__ == "__main__":
     main()
